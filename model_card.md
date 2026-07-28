@@ -14,8 +14,14 @@ suggestion it also explains *why* the song was picked.
 
 It assumes the user can describe their taste as a few simple preferences, and that a good
 recommendation is one whose attributes are close to those preferences. It is built for
-**classroom exploration**, not for real listeners: it's a teaching tool for understanding how
-content-based scoring and ranking work, not a production music service.
+**classroom exploration** — a teaching tool for understanding how content-based scoring and
+ranking work.
+
+**Non-intended use.** It should **not** be used as a real music service or to make decisions
+that affect people. The catalog is tiny and hand-made, the weights are picked by hand rather
+than learned from data, and there's no user history or fairness checking — so it would give
+narrow, biased results in the real world. It is not a benchmark of recommender quality and
+shouldn't be presented as one.
 
 ---
 

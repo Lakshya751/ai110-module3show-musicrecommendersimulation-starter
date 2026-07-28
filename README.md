@@ -189,7 +189,136 @@ High-Energy Sad   → 1. Neon Horizon (edm/energetic) 3.44 2. Storm Runner (rock
 Each "clean" profile puts its obvious match first by a wide margin. The adversarial profile
 has no sad + high-energy song, so the "sad" mood never scores and the result falls back to
 genre + energy — the system ignores the part of the request it can't satisfy rather than
-breaking. Full per-profile output and comparisons are in `model_card.md`.
+breaking. Comparisons are discussed in `model_card.md`.
+
+<details>
+<summary>Full terminal output for all five profiles (click to expand)</summary>
+
+```
+Loaded songs: 18
+
+============================================================
+Profile: Happy Pop
+Prefs:   {'genre': 'pop', 'mood': 'happy', 'energy': 0.8, 'likes_acoustic': False}
+============================================================
+1. Sunrise City — Neon Echo (pop/happy)
+   Score: 4.48
+   Because: genre match (pop) +2.0; mood match (happy) +1.0; energy close to 0.80 +0.98; non-acoustic feel +0.5
+
+2. Gym Hero — Max Pulse (pop/intense)
+   Score: 3.37
+   Because: genre match (pop) +2.0; energy close to 0.80 +0.87; non-acoustic feel +0.5
+
+3. Rooftop Lights — Indigo Parade (indie pop/happy)
+   Score: 2.46
+   Because: mood match (happy) +1.0; energy close to 0.80 +0.96; non-acoustic feel +0.5
+
+4. Neon Heartbeat — Aurora Line (k-pop/happy)
+   Score: 2.42
+   Because: mood match (happy) +1.0; energy close to 0.80 +0.92; non-acoustic feel +0.5
+
+5. Concrete Dreams — Block Theory (hip-hop/energetic)
+   Score: 1.50
+   Because: energy close to 0.80 +1.00; non-acoustic feel +0.5
+
+============================================================
+Profile: Chill Lofi
+Prefs:   {'genre': 'lofi', 'mood': 'chill', 'energy': 0.35, 'likes_acoustic': True}
+============================================================
+1. Library Rain — Paper Lanterns (lofi/chill)
+   Score: 4.50
+   Because: genre match (lofi) +2.0; mood match (chill) +1.0; energy close to 0.35 +1.00; acoustic feel +0.5
+
+2. Midnight Coding — LoRoom (lofi/chill)
+   Score: 4.43
+   Because: genre match (lofi) +2.0; mood match (chill) +1.0; energy close to 0.35 +0.93; acoustic feel +0.5
+
+3. Focus Flow — LoRoom (lofi/focused)
+   Score: 3.45
+   Because: genre match (lofi) +2.0; energy close to 0.35 +0.95; acoustic feel +0.5
+
+4. Spacewalk Thoughts — Orbit Bloom (ambient/chill)
+   Score: 2.43
+   Because: mood match (chill) +1.0; energy close to 0.35 +0.93; acoustic feel +0.5
+
+5. Coffee Shop Stories — Slow Stereo (jazz/relaxed)
+   Score: 1.48
+   Because: energy close to 0.35 +0.98; acoustic feel +0.5
+
+============================================================
+Profile: Deep Intense Rock
+Prefs:   {'genre': 'rock', 'mood': 'intense', 'energy': 0.9, 'likes_acoustic': False}
+============================================================
+1. Storm Runner — Voltline (rock/intense)
+   Score: 4.49
+   Because: genre match (rock) +2.0; mood match (intense) +1.0; energy close to 0.90 +0.99; non-acoustic feel +0.5
+
+2. Gym Hero — Max Pulse (pop/intense)
+   Score: 2.47
+   Because: mood match (intense) +1.0; energy close to 0.90 +0.97; non-acoustic feel +0.5
+
+3. Neon Heartbeat — Aurora Line (k-pop/happy)
+   Score: 1.48
+   Because: energy close to 0.90 +0.98; non-acoustic feel +0.5
+
+4. Neon Horizon — Pulse Factory (edm/energetic)
+   Score: 1.44
+   Because: energy close to 0.90 +0.94; non-acoustic feel +0.5
+
+5. Iron Verdict — Ragefall (metal/aggressive)
+   Score: 1.43
+   Because: energy close to 0.90 +0.93; non-acoustic feel +0.5
+
+============================================================
+Profile: Acoustic Folk
+Prefs:   {'genre': 'folk', 'mood': 'sad', 'energy': 0.3, 'likes_acoustic': True}
+============================================================
+1. Paper Boats — Ander Fields (folk/sad)
+   Score: 4.50
+   Because: genre match (folk) +2.0; mood match (sad) +1.0; energy close to 0.30 +1.00; acoustic feel +0.5
+
+2. Spacewalk Thoughts — Orbit Bloom (ambient/chill)
+   Score: 1.48
+   Because: energy close to 0.30 +0.98; acoustic feel +0.5
+
+3. Library Rain — Paper Lanterns (lofi/chill)
+   Score: 1.45
+   Because: energy close to 0.30 +0.95; acoustic feel +0.5
+
+4. Winter Sonata — Adagio Hall (classical/dreamy)
+   Score: 1.45
+   Because: energy close to 0.30 +0.95; acoustic feel +0.5
+
+5. Coffee Shop Stories — Slow Stereo (jazz/relaxed)
+   Score: 1.43
+   Because: energy close to 0.30 +0.93; acoustic feel +0.5
+
+============================================================
+Profile: Adversarial: High-Energy Sad
+Prefs:   {'genre': 'edm', 'mood': 'sad', 'energy': 0.9, 'likes_acoustic': False}
+============================================================
+1. Neon Horizon — Pulse Factory (edm/energetic)
+   Score: 3.44
+   Because: genre match (edm) +2.0; energy close to 0.90 +0.94; non-acoustic feel +0.5
+
+2. Storm Runner — Voltline (rock/intense)
+   Score: 1.49
+   Because: energy close to 0.90 +0.99; non-acoustic feel +0.5
+
+3. Neon Heartbeat — Aurora Line (k-pop/happy)
+   Score: 1.48
+   Because: energy close to 0.90 +0.98; non-acoustic feel +0.5
+
+4. Gym Hero — Max Pulse (pop/intense)
+   Score: 1.47
+   Because: energy close to 0.90 +0.97; non-acoustic feel +0.5
+
+5. Iron Verdict — Ragefall (metal/aggressive)
+   Score: 1.43
+   Because: energy close to 0.90 +0.93; non-acoustic feel +0.5
+```
+
+</details>
 
 ### Weight experiment
 
