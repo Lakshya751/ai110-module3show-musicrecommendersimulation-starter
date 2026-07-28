@@ -17,17 +17,38 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+### How real-world recommenders work
 
-Some prompts to answer:
+Big platforms like Spotify, YouTube, and TikTok mostly blend two strategies:
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+- **Collaborative filtering** — "people like *you* also liked this." It ignores what a
+  song sounds like and instead learns from the behavior of many users (likes, skips,
+  replays, playlist adds). If lots of people with taste similar to mine liked a song,
+  it recommends that song to me. It's powerful but needs a large crowd of users and lots
+  of interaction history, so it struggles with brand-new users or songs (the "cold-start"
+  problem).
+- **Content-based filtering** — "this song is *similar to* what you already like." It
+  ignores other users and compares the *attributes* of songs (genre, mood, energy, tempo)
+  to a user's preferences. It works even for a single user with no crowd data.
 
-You can include a simple diagram or bullet list if helpful.
+**My version is a content-based recommender.** With only 10 songs and one user profile, I
+have no crowd behavior to learn from, so I compare each song's attributes to a user's taste
+profile and rank the closest matches. It prioritizes **genre and mood** as the strongest
+signals of taste, and uses **energy** (and optionally acoustic feel) to separate songs that
+share a genre but fit a different vibe — for example a high-energy gym track versus a chill
+study track.
+
+### Features my objects use
+
+- **`Song`** uses: `genre`, `mood`, `energy`, `tempo_bpm`, `valence`, `danceability`,
+  `acousticness` (from `data/songs.csv`).
+- **`UserProfile`** stores: `favorite_genre`, `favorite_mood`, `target_energy`, and
+  `likes_acoustic`.
+
+The core features that drive scoring are **genre, mood, energy, and acousticness** — a small
+set that still captures most of what makes a song "feel" right for a listener.
+
+*(The finalized scoring recipe and expected biases are documented below in Phase 2.)*
 
 ---
 
