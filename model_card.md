@@ -2,60 +2,67 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+**VibeMatch 1.0** — a small, explainable, content-based music recommender.
 
 ---
 
 ## 2. Intended Use  
 
-Describe what your recommender is designed to do and who it is for. 
+VibeMatch suggests songs from a small catalog that match a user's stated taste — a favorite
+genre, a favorite mood, a target energy level, and whether they like acoustic music. For every
+suggestion it also explains *why* the song was picked.
 
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+It assumes the user can describe their taste as a few simple preferences, and that a good
+recommendation is one whose attributes are close to those preferences. It is built for
+**classroom exploration**, not for real listeners: it's a teaching tool for understanding how
+content-based scoring and ranking work, not a production music service.
 
 ---
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+Think of it like a friendly judge giving each song points. The user says what they like —
+a genre, a mood, an energy level, and whether they prefer acoustic songs. Then the judge looks
+at every song in the list and hands out points: **2 points if the genre matches**, **1 point
+if the mood matches**, up to **1 point for how close the song's energy is** to what the user
+wants (a perfect match gets the full point, a big gap gets almost none), and **half a point**
+if the song's acoustic feel matches the user's preference. Every song ends up with a total
+score, and the highest scores rise to the top of the list.
 
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The genre is worth the most because it's the biggest clue about taste, and energy is scored by
+*closeness* rather than "more is better," so someone who wants calm music isn't handed the
+loudest track. Compared to the starter code — which just returned the first few songs in the
+file without looking at them — this version actually reads each song's features, scores them,
+sorts by score, and writes a plain-English reason for every pick.
 
 ---
 
 ## 4. Data  
 
-Describe the dataset the model uses.  
+The catalog is a single CSV, `data/songs.csv`, with **18 songs**. Each song has a genre, a
+mood, and five numeric features on a 0.0–1.0 scale (energy, valence, danceability,
+acousticness) plus tempo in BPM. I expanded it from the 10 starter songs by adding 8 more so
+there would be real variety to rank. Genres now include pop, indie pop, lofi, rock, metal,
+edm, hip-hop, r&b, jazz, classical, country, folk, k-pop, ambient, and synthwave; moods
+include happy, chill, intense, energetic, aggressive, nostalgic, romantic, sad, dreamy,
+relaxed, focused, and moody.
 
-Prompts:  
-
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+It's still tiny. Most moods are represented by only one or two songs, there are no lyrics or
+language information, no artist popularity, and no listening history — so whole dimensions of
+real musical taste (culture, era, personal memories, what your friends listen to) are simply
+missing.
 
 ---
 
 ## 5. Strengths  
 
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+The system works best for users whose taste lines up with a genre that's well represented in
+the catalog — the Happy Pop, Chill Lofi, Deep Intense Rock, and Acoustic Folk profiles all got
+an obvious, correct top pick with a clear point gap over the rest. The energy-closeness rule
+captures something real: it cleanly separates calm songs from high-energy ones, so the same
+catalog produces very different lists for a "study" user versus a "gym" user. And because every
+recommendation comes with its reasons, it's easy to see *why* a song ranked where it did — the
+scoring is fully transparent, which is exactly what you want in a teaching model.
 
 ---
 
@@ -115,23 +122,28 @@ small, which is exactly the kind of "filter bubble" real recommenders have to fi
 
 ## 8. Future Work  
 
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+- **Softer genre matching.** Give partial credit for related genres (e.g. "pop" and "indie
+  pop") instead of an all-or-nothing exact string match, so near-misses aren't scored as zero.
+- **A diversity rule.** Penalize the score of a song whose artist or genre already appears near
+  the top, so the list doesn't fill up with near-duplicates and one energetic song can't
+  dominate every profile.
+- **More features and richer preferences.** Fold in valence, danceability, and tempo, and let a
+  user weight the features themselves (or pick a "mode" like Genre-First vs. Energy-Focused) to
+  handle more complex tastes.
 
 ---
 
 ## 9. Personal Reflection  
 
-A few sentences about your experience.  
+My biggest learning moment was realizing that a "recommendation" is really just **scoring plus
+sorting** — there's no magic, just a rule that turns features into numbers and a ranking that
+picks the top ones. The most surprising thing was how often the *same* high-energy song
+appeared across totally different user profiles; it made the idea of a "filter bubble" click
+for me, because I could see one strong feature quietly taking over a small catalog.
 
-Prompts:  
-
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+Using AI tools helped me move fast on the boilerplate — loading the CSV, shaping the scoring
+function, formatting the terminal output — but I had to double-check the parts that carried the
+actual logic: the energy-closeness math, the weights, and the import/path setup that made the
+tests pass. It changed how I think about music apps: what feels like a system that "knows me"
+is often a simple formula plus a lot of data, and the choices behind that formula (which
+features matter, how they're weighted) quietly decide what I do and don't get to hear.

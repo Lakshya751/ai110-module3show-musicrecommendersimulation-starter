@@ -209,15 +209,15 @@ energy," showing how sensitive the ranking is to the weights.
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
+- It works on a tiny 18-song catalog, so the top results have little variety and one strong
+  feature (like energy) can dominate many different profiles.
+- Genre matching is exact, so musically-close genres ("pop" vs. "indie pop") are treated as
+  unrelated and score zero.
+- It doesn't understand lyrics, language, artist popularity, or listening history — whole
+  dimensions of real taste are missing.
+- Most moods appear on only one or two songs, so a mood preference often contributes nothing.
 
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+I go deeper on these in the [model card](model_card.md).
 
 ---
 
@@ -227,10 +227,18 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Write 1 to 2 paragraphs here about what you learned:
+Building this made "recommendation" feel a lot less magical. Under the hood it's just **scoring
+plus sorting**: a rule turns each song's features into a number, and ranking picks the highest.
+Once I saw that, I understood how a recommender turns plain data (genre, mood, energy) into a
+prediction about what someone will like — it's a formula, and the choices inside that formula
+do all the work.
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+That's also where bias sneaks in. The weights aren't neutral: because genre is worth the most
+points, the system quietly favors users whose taste sits in a well-represented genre and
+sidelines everyone else. With a small catalog, one strong feature (energy) kept pushing the
+same song to the top of very different profiles — a mini "filter bubble." In a real system,
+those same design choices — which features count, how they're weighted, whose data is in the
+catalog — decide what millions of people do and don't get to hear.
 
 
 
