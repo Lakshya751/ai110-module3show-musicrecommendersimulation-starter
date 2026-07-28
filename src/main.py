@@ -23,13 +23,23 @@ def print_recommendations(title: str, user_prefs: dict, songs: list, k: int = 5)
         print()
 
 
+# Diverse user profiles for stress-testing the recommender. The last one is an
+# "adversarial" profile with a conflict (high energy but a sad mood) to see whether
+# the scoring logic produces something sensible when preferences fight each other.
+PROFILES = [
+    ("Happy Pop", {"genre": "pop", "mood": "happy", "energy": 0.8, "likes_acoustic": False}),
+    ("Chill Lofi", {"genre": "lofi", "mood": "chill", "energy": 0.35, "likes_acoustic": True}),
+    ("Deep Intense Rock", {"genre": "rock", "mood": "intense", "energy": 0.9, "likes_acoustic": False}),
+    ("Acoustic Folk", {"genre": "folk", "mood": "sad", "energy": 0.3, "likes_acoustic": True}),
+    ("Adversarial: High-Energy Sad", {"genre": "edm", "mood": "sad", "energy": 0.9, "likes_acoustic": False}),
+]
+
+
 def main() -> None:
     songs = load_songs("data/songs.csv")
-
-    # Starter example profile.
-    user_prefs = {"genre": "pop", "mood": "happy", "energy": 0.8, "likes_acoustic": False}
     print()
-    print_recommendations("Happy Pop", user_prefs, songs, k=5)
+    for title, user_prefs in PROFILES:
+        print_recommendations(title, user_prefs, songs, k=5)
 
 
 if __name__ == "__main__":

@@ -174,11 +174,36 @@ Prefs:   {'genre': 'pop', 'mood': 'happy', 'energy': 0.8, 'likes_acoustic': Fals
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+### Diverse profile runs
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+I stress-tested the recommender with five profiles (defined in `src/main.py`), including an
+adversarial one that combines a sad mood with high energy. Top results per profile:
+
+```
+Chill Lofi        → 1. Library Rain (lofi/chill) 4.50   2. Midnight Coding (lofi/chill) 4.43
+Deep Intense Rock → 1. Storm Runner (rock/intense) 4.49  2. Gym Hero (pop/intense) 2.47
+Acoustic Folk     → 1. Paper Boats (folk/sad) 4.50       2. Spacewalk Thoughts (ambient/chill) 1.48
+High-Energy Sad   → 1. Neon Horizon (edm/energetic) 3.44 2. Storm Runner (rock/intense) 1.49
+```
+
+Each "clean" profile puts its obvious match first by a wide margin. The adversarial profile
+has no sad + high-energy song, so the "sad" mood never scores and the result falls back to
+genre + energy — the system ignores the part of the request it can't satisfy rather than
+breaking. Full per-profile output and comparisons are in `model_card.md`.
+
+### Weight experiment
+
+I halved the genre weight (2.0 → 1.0) and doubled the energy weight (1.0 → 2.0) for the Happy
+Pop profile:
+
+```
+Baseline (genre 2.0, energy 1.0):   1. Sunrise City  2. Gym Hero        3. Rooftop Lights
+Experiment (genre 1.0, energy 2.0): 1. Sunrise City  2. Rooftop Lights  3. Neon Heartbeat  (Gym Hero → #4)
+```
+
+"Gym Hero" (pop/intense) dropped from #2 to #4 while the happy-mood tracks rose. The change
+made the results *different*, not clearly better — it traded "same genre" for "right mood +
+energy," showing how sensitive the ranking is to the weights.
 
 ---
 
