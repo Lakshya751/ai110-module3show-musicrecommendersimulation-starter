@@ -11,7 +11,10 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+My version is a **CLI-first, content-based recommender**. It loads an 18-song catalog from
+CSV, scores every song against a user's taste profile (genre, mood, energy, acoustic feel)
+using a weighted rule, and prints a ranked top-k list where each pick comes with the reasons
+it was chosen.
 
 ---
 
@@ -135,15 +138,34 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+A sample run of `python -m src.main` for the default "Happy Pop" profile:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+Loaded songs: 18
+
+============================================================
+Profile: Happy Pop
+Prefs:   {'genre': 'pop', 'mood': 'happy', 'energy': 0.8, 'likes_acoustic': False}
+============================================================
+1. Sunrise City — Neon Echo (pop/happy)
+   Score: 4.48
+   Because: genre match (pop) +2.0; mood match (happy) +1.0; energy close to 0.80 +0.98; non-acoustic feel +0.5
+
+2. Gym Hero — Max Pulse (pop/intense)
+   Score: 3.37
+   Because: genre match (pop) +2.0; energy close to 0.80 +0.87; non-acoustic feel +0.5
+
+3. Rooftop Lights — Indigo Parade (indie pop/happy)
+   Score: 2.46
+   Because: mood match (happy) +1.0; energy close to 0.80 +0.96; non-acoustic feel +0.5
+
+4. Neon Heartbeat — Aurora Line (k-pop/happy)
+   Score: 2.42
+   Because: mood match (happy) +1.0; energy close to 0.80 +0.92; non-acoustic feel +0.5
+
+5. Concrete Dreams — Block Theory (hip-hop/energetic)
+   Score: 1.50
+   Because: energy close to 0.80 +1.00; non-acoustic feel +0.5
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
