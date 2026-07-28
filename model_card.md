@@ -141,15 +141,10 @@ small, which is exactly the kind of "filter bubble" real recommenders have to fi
 
 ## 9. Personal Reflection  
 
-My biggest learning moment was realizing that a "recommendation" is really just **scoring plus
-sorting** — there's no magic, just a rule that turns features into numbers and a ranking that
-picks the top ones. The most surprising thing was how often the *same* high-energy song
-appeared across totally different user profiles; it made the idea of a "filter bubble" click
-for me, because I could see one strong feature quietly taking over a small catalog.
+My biggest learning moment was realizing that a recommendation system is basically just scoring and sorting. There isn’t really any magic behind it. The system takes different features, turns them into numbers, and then ranks the options based on those scores.
 
-Using AI tools helped me move fast on the boilerplate — loading the CSV, shaping the scoring
-function, formatting the terminal output — but I had to double-check the parts that carried the
-actual logic: the energy-closeness math, the weights, and the import/path setup that made the
-tests pass. It changed how I think about music apps: what feels like a system that "knows me"
-is often a simple formula plus a lot of data, and the choices behind that formula (which
-features matter, how they're weighted) quietly decide what I do and don't get to hear.
+What surprised me most was seeing the same high-energy song appear for completely different user profiles. That was when the idea of a “filter bubble” really made sense to me. I could actually see how one strong feature, like energy level, could quietly take over the recommendations, especially when the music catalog was small.
+
+Using AI tools helped me move faster through some of the more repetitive parts, like loading the CSV file, setting up the scoring function, and formatting the terminal output. But I still had to carefully check the parts that controlled the actual logic. Things like the energy-closeness calculation, the weights given to each feature, and the import and file-path setup all mattered, especially when I was trying to get the tests to pass.
+
+This project also changed the way I think about music apps. A system that feels like it “knows me” may actually be using a fairly simple formula supported by a huge amount of data. The decisions behind that formula—what features matter and how much weight each one gets can quietly control what I discover and what I may never get the chance to hear.
