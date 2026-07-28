@@ -11,10 +11,7 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-My version is a **CLI-first, content-based recommender**. It loads an 18-song catalog from
-CSV, scores every song against a user's taste profile (genre, mood, energy, acoustic feel)
-using a weighted rule, and prints a ranked top-k list where each pick comes with the reasons
-it was chosen.
+My version is a CLI-first, content-based recommendation system. It loads an 18-song catalog from a CSV file, compares each song to the user’s taste profile, and gives it a score based on features like genre, mood, energy, and acoustic feel. It then sorts the songs by score and prints a ranked top-k list. Each recommendation also includes a short explanation of why that song was selected.
 
 ---
 
@@ -356,18 +353,12 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Building this made "recommendation" feel a lot less magical. Under the hood it's just **scoring
-plus sorting**: a rule turns each song's features into a number, and ranking picks the highest.
-Once I saw that, I understood how a recommender turns plain data (genre, mood, energy) into a
-prediction about what someone will like — it's a formula, and the choices inside that formula
-do all the work.
+Building this made recommendation systems feel a lot less mysterious to me. Underneath everything, it’s really just scoring and sorting. A rule looks at each song’s features, gives the song a score, and then ranks the songs from highest to lowest. Once I understood that, it became much easier to see how basic information like genre, mood, and energy can be turned into a prediction about what someone might enjoy. The formula itself may be simple, but the choices inside it are what really shape the result.
 
-That's also where bias sneaks in. The weights aren't neutral: because genre is worth the most
-points, the system quietly favors users whose taste sits in a well-represented genre and
-sidelines everyone else. With a small catalog, one strong feature (energy) kept pushing the
-same song to the top of very different profiles — a mini "filter bubble." In a real system,
-those same design choices — which features count, how they're weighted, whose data is in the
-catalog — decide what millions of people do and don't get to hear.
+That’s also where bias can come in. The weights given to each feature aren’t completely neutral. In this system, genre is worth the most points, so it naturally favors users whose preferences match the genres that are already well represented in the catalog. Other users may get weaker or less accurate recommendations without even realizing why.
 
+I also noticed that the same high-energy song kept showing up for very different user profiles. Since the catalog was small, that one strong feature had too much influence and kept pushing the same song to the top. It felt like a small example of a filter bubble.
+
+In a real recommendation system, these design choices can have a much bigger impact. Deciding which features matter, how much weight they receive, and whose music or data is included can quietly control what millions of people discover and what they may never get the chance to hear.
 
 
