@@ -48,7 +48,53 @@ study track.
 The core features that drive scoring are **genre, mood, energy, and acousticness** — a small
 set that still captures most of what makes a song "feel" right for a listener.
 
-*(The finalized scoring recipe and expected biases are documented below in Phase 2.)*
+### The design (Phase 2)
+
+**Dataset.** The catalog was expanded from 10 to **18 songs** so there's real variety to
+rank. Added genres include hip-hop, edm, classical, metal, country, r&b, folk, and k-pop, and
+added moods include energetic, aggressive, nostalgic, romantic, sad, and dreamy. All songs use
+the same headers, and the numeric features stay on a 0.0–1.0 scale (except `tempo_bpm`).
+
+**Example user profile.** A taste profile is a small dictionary of target values:
+
+```python
+user_prefs = {
+    "genre": "pop",
+    "mood": "happy",
+    "energy": 0.8,
+    "likes_acoustic": False,
+}
+```
+
+This is specific enough to tell "intense rock" apart from "chill lofi": the genre/mood fields
+separate the categories, and the energy target pulls toward high-energy songs while pushing
+away from low-energy ones.
+
+**Algorithm Recipe (finalized).** For each song, add up:
+
+| Rule | Points |
+|------|--------|
+| Genre matches the user's favorite genre | **+2.0** |
+| Mood matches the user's favorite mood | **+1.0** |
+| Energy closeness: `1 − |song.energy − target_energy|` | **0.0 → +1.0** |
+| Acoustic preference aligns (likes_acoustic vs. acousticness ≥ 0.5) | **+0.5** |
+
+Genre is weighted highest because it's the coarsest, most defining bucket of taste; mood is
+worth half of that; energy is scored by *proximity* (closest wins, not highest); acoustic
+feel is a small tie-breaker. Each rule also records a human-readable **reason** so a
+recommendation can be explained (e.g. `"genre match (+2.0)"`).
+
+**Data flow.**
+
+```
+User Prefs  →  [loop: score every song with score_song]  →  sort high→low  →  Top K recs
+```
+
+**Biases I expect.** Because genre is worth the most points, the system may **over-prioritize
+genre** and bury great songs that match the user's mood but not their genre. Exact string
+matching also means near-matches like `"pop"` vs. `"indie pop"` score zero for genre even
+though they're musically close. Finally, the energy-closeness score quietly favors
+**mid-energy songs**, since they're never far from any target.
 
 ---
 
